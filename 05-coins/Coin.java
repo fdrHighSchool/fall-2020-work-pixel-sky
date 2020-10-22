@@ -1,11 +1,9 @@
-//Zhi Feng , JINXIN , Yang Lu
 import java.util.*;
 
 class Main {
   public static void main(String[] args) {
     // greet the user of your with a certain 
     // amount of base coins to their bank (can be random or fixed)
-    Random rng = new Random();
     Scanner input = new Scanner(System.in);
     System.out.println("You have 500 coins in your bank.");
     int totalCoins = 500;
@@ -25,50 +23,41 @@ class Main {
     
       // based on their entry, call the method to perform that behavior
       // at all times, keep updating the user's bank balance
-      if (choice == 1){
-        int earnedCoin = play(rng);
-        totalCoins += earnedCoin;
-        System.out.println("you have "+ totalCoins +" in your bank");
-      }
+      switch (choice) {
+        // play
+        case 1:
+          totalCoins += play(rng);
+          System.out.printf("you have %d in your bank\n", totalCoins);
+          break;
+          
+        // shop
+        case 2:
+          totalCoins -= shop(input);
+          item++;
+          System.out.printf("You brought %d item(s)", item);
+          System.out.printf("you have %d in your bank\n", totalCoins);
+          break;
       
-      else if (choice == 2){
-        int UsedCoin = shop(input);
-        totalCoins -= UsedCoin;
-        item++;
-        System.out.printf("You brought %d item(s)", item);
-        System.out.println("You have "+ totalCoins +" in your bank");
+        // exit
+        case 3:
+          game = false;
+          System.out.printf("exit with %d coins and %s items\n", totalCoins, item);
+          break;
       }
-      
-      else if (choice == 3){
-        game = false;
-        System.out.printf("exit with %d coins and %s items\n", totalCoins, item);
-      }
-    
     }//end of while loop
     input.close();
   }//end main method
-
-
-  /*
-   * Name: play
-   * Purpose: simulate a round of the game, award the user a random 
-              amount of coins for playing
-   * Input: Random object
-   * Return: a random number of coins the user won that round
-   */
-   public static int play (Random rng) {
+  
+  // return the randomly generated coins
+  public static int play () {
+    // create a new Random object
+    Random rng = new Random();
     // generate random coins from 1 - 100
     int coins = rng.nextInt(100) + 1;
     return coins;
   }
   
-  
-  /*
-   * Name: shop
-   * Purpose: allow the player to spend coins
-   * Input: how much player spend
-   * Return: how many coins spent
-   */
+  // ask the user on much they want to spend
   public static int shop (Scanner input) {
     System.out.println("How much do you want to spend?");
     int amount = input.nextInt();
