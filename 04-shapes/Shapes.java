@@ -1,3 +1,5 @@
+import java.lang.Math;
+
 public class Shapes {
     public static void main(String[] args) {
         rectangle(10, 20);
