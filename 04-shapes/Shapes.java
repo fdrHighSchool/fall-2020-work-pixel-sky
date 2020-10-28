@@ -2,32 +2,52 @@ import java.lang.Math;
 
 public class Shapes {
     public static void main(String[] args) {
-        rectangle(10, 20);
-        square(10);
-        triangle(10, 10);
-        triangle(10, 10, 10);
-        circle(10);
+        double area;
+        // 2 dimension area and 3 dimension volume
+
+        // rectangle
+        area = rectangle(10, 20);
+        System.out.printf("2d: %f, 3d: %f\n", area, threeD(5, area));
+
+        // square
+        area = square(10);
+        System.out.printf("2d: %f, 3d: %f\n", area, threeD(5, area));
+
+        // triangle
+        area = triangle(10, 10);
+        System.out.printf("2d: %f, 3d: %f\n", area, threeD(5, area));
+
+        // another triangle
+        area = triangle(10, 10, 10);
+        System.out.printf("2d: %f, 3d: %f\n", area, threeD(5, area));
+
+        // circle
+        area = circle(10);
+        System.out.printf("2d: %f, 3d: %f\n", area, threeD(5, area)); 
     }
 
-    public static void rectangle (double height, double width) {
-        System.out.printf("the area is: %f\n", height * width);
+    public static double rectangle (double height, double width) {
+        return height * width;
     }
 
-    public static void square (double side) {
-        rectangle(side, side);
+    public static double square (double side) {
+        return rectangle(side, side);
     }
 
-    public static void triangle (double height, double base) {
-        rectangle(height, base / 2);
+    public static double triangle (double height, double base) {
+        return rectangle(height, base) / 2;
     }
 
-    public static void triangle (double a, double b, double c) {
+    public static double triangle (double a, double b, double c) {
         double s = (a + b + c) / 2;
-        double area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
-        System.out.printf("the area is: %f\n", area);
+        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
     }
 
-    public static void circle (double radius) {
-        System.out.printf("the area is: %f\n", Math.PI * Math.pow(radius, 2));
+    public static double circle (double radius) {
+        return Math.PI * Math.pow(radius, 2);
+    }
+
+    public static double threeD (double depth, double area) {
+        return depth * area;
     }
 }
