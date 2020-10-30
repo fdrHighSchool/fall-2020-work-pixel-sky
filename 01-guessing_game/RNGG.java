@@ -24,21 +24,25 @@ public class RNGG {
             int min = 1;
             int max = upperBound;
 
+            // keep track of the previous
             int old_guess = 0;
             int guess = -1;
 
             userInput.nextLine(); //throw away the \n not consumed by nextInt()
 
+            // do the following while the player have not correctly guess the number
             do {
                 try {
                     System.out.printf("take a guess (%d-%d): ", min, max);
                     String hint = userInput.nextLine();
                     
                     if (count != 0) {
+                        // tells the user how far they are off
                         if (hint.equals("hint1")) {
                             System.out.printf("off by %d\n", randomNumber - old_guess);
                             continue;
                         }
+                        // display if the number is even or odd
                         else if (hint.equals("hint2")) {
                             if (randomNumber % 2 == 0) {
                                 System.out.println("even");
@@ -54,6 +58,7 @@ public class RNGG {
                     guess = Integer.parseInt(hint);
                 
                 }
+                // catch any problem converting string to int (non numbers like, !, ], letters) 
                 catch (NumberFormatException e)
                 {
                     System.out.println("invaild input");
@@ -63,6 +68,7 @@ public class RNGG {
                 count++;
                 old_guess = guess;
 
+                // keep track of the biggest and the smallest number the user have guessed
                 if (guess < randomNumber && !(guess < min)) {
                     min = guess;
                 }
@@ -102,6 +108,7 @@ public class RNGG {
     // ask for difficulty
     public static int askDifficulty(Scanner userInput) {
         int difficulty;
+        // do while if the user did not enter a number between 1 and 3 (included)
         do {
             System.out.printf("choose a difficulty form 1-3 (higher more difficult): ");
             difficulty = userInput.nextInt();
