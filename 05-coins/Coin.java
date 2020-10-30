@@ -50,10 +50,8 @@ class Main {
   
   // return the randomly generated coins
   public static int play () {
-    // create a new Random object
-    Random rng = new Random();
     // generate random coins from 1 - 100
-    int coins = rng.nextInt(100) + 1;
+    int coins = (int)(Math.random() * 100) + 1;
     return coins;
   }
   
