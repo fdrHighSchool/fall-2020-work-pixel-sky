@@ -1,20 +1,20 @@
 import java.util.Scanner;
 
-public class bill {
+public class Bill {
     public static void main(String[] args){
 
 		Scanner input = new Scanner(System.in);
 		System.out.println("Welcome to the Bill-Splitter");
 
         System.out.print("Enter the total, pre-tax: ");
-		double total = input.nextInt();
+		double total = input.nextDouble();
 
-        System.out.print("how much tax:");
+        System.out.print("how much tax (in decimal):");
         double tax = input.nextDouble();
         total = (1 + tax) * total;
         
         System.out.print("how much tips:");
-        double tips = input.nextInt();
+        double tips = input.nextDouble();
         total += tips;
 
 		System.out.print("How many people? ");
@@ -22,7 +22,7 @@ public class bill {
 
         double perPerson = total / numPeople;
 
-		System.out.println("Each person must pay $" + perPerson + ", plus tip");
+		System.out.println("Each person must pay $" + perPerson + ", incuding tip");
 
         input.close();
 	}//end main method    
