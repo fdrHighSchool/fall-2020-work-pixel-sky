@@ -1,3 +1,7 @@
+/* 
+    project: https://github.com/fdrHighSchool/fall-2020-CSA/tree/master/projects/fraction-calculator
+*/
+
 import java.util.Scanner;
 
 public class FracCalc {
@@ -20,12 +24,10 @@ public class FracCalc {
             System.out.printf("Enter a expression: ");
             String expression = input.nextLine();
             
-            if (!expression.equals("quit")) {
+            if (!expression.equals("exit"))
                 System.out.println(produceAnswer(expression));
-            }
-            else {
+            else
                 event = false;
-            }
         }
         input.close();
     }//end main method
@@ -51,15 +53,28 @@ public class FracCalc {
         // gets the index of /
         int divideIndex = values[2].indexOf("/");
 
-        // from beginning to underscore
-        int whole = underscoreIndex != -1 ? Integer.parseInt(values[2].substring(0, underscoreIndex)) : 0;
-        // from underscore +1 to division symbol
-        int numerator = Integer.parseInt(values[2].substring(underscoreIndex + 1, divideIndex));
-        // from the division symbol +1 to the end
-        int denominator = Integer.parseInt(values[2].substring(divideIndex + 1));
+        int whole = 0;
+        int numerator = 0;
+        int denominator = 0;
+
+        // if there are underscore
+        if (underscoreIndex != -1)
+            // whole number equal to from 0 to underscore
+            whole = Integer.parseInt(values[2].substring(0, underscoreIndex));
+        // elseif there are no underscore
+        else if (divideIndex == -1)
+            // whole number equal to values[i]
+            whole = Integer.parseInt(values[2]);
+
+        // don't parse fraction if there are no fraction
+        if (divideIndex != -1) {
+            // from underscore +1 to division symbol
+            numerator = Integer.parseInt(values[2].substring(underscoreIndex + 1, divideIndex));
+            // from the division symbol +1 to the end
+            denominator = Integer.parseInt(values[2].substring(divideIndex + 1));
+        }
     
-        String numbers = String.format("%d+%d/%d", whole, numerator, denominator);
-        System.out.printf(numbers);
+        String numbers = String.format("whole:%d numerator:%d denominator:%d", whole, numerator, denominator);
         // Checkpoint 3: Evaluate the formula and return the result as a fraction.
         //               Example "4/5 * 1_2/4" returns "6/5".
 
@@ -80,18 +95,18 @@ public class FracCalc {
      * @param b - Second integer.
      * @return The GCD.
      */
-    public static int greatestCommonDivisor(int a, int b){
+    public static int greatestCommonDivisor(int a, int b) {
         /* Euclidean algorithm
-            takes the bigger of number a and b and mod it with the smaller one, to get a remainder
-            take the previous smaller number and mod it against the remainder, to get a new remainder
-            take the previous smaller number and mod it against the new remainder, to get another remainder
-            continues until the remainder is equal to 0
-
-            Example: gcm(12, 44) = 44(bigger numebr) % 12(smaller number) = 8(remainder)
-                                 = 12(previous smaller number) % 8(previous remainder or the smaller number) = 4(new remainder)
-                                 = 8(previous smaller number) % 4(previous remainder or the smaller number) = 0(new remainder)
-                                 last remainder that is not 0 is 4, gcm = 4
-        */
+         *  takes the bigger of number a and b and mod it with the smaller one, to get a remainder
+         *  take the previous smaller number and mod it against the remainder, to get a new remainder
+         *  take the previous smaller number and mod it against the new remainder, to get another remainder
+         *  continues until the remainder is equal to 0
+         * 
+         *  Example: gcm(12, 44) = 44(bigger numebr) % 12(smaller number) = 8(remainder)
+         *                       = 12(previous smaller number) % 8(previous remainder or the smaller number) = 4(new remainder)
+         *                       = 8(previous smaller number) % 4(previous remainder or the smaller number) = 0(new remainder)
+         *                       last remainder that is not 0 is 4, gcm = 4
+         */
         while (b != 0) {
             int temp = b;
             b = a % b;
@@ -107,7 +122,7 @@ public class FracCalc {
      * @param b - Second integer.
      * @return The LCM.
      */
-    public static int leastCommonMultiple(int a, int b){
+    public static int leastCommonMultiple(int a, int b) {
         return 0;
     }//end leastCommonMultiple
 
