@@ -11,21 +11,21 @@ public class FracCalc {
      * @param args - unused
      */
     public static void main(String[] args){
-        // TODO: Read the input from the user and call produceAnswer with an equation
-        // Checkpoint 1: Create a Scanner, read one line of input, pass that input to produceAnswer, print the result.
         Scanner input = new Scanner(System.in);
-        //System.out.printf("Enter a expression: ");
-        //String expression = input.nextLine();
 
-        //System.out.println(produceAnswer(expression));
-        // Checkpoint 2: Accept user input multiple times.
         boolean event = true;
         while (event) {
             System.out.printf("Enter a expression: ");
             String expression = input.nextLine();
             
             if (!expression.equals("exit"))
-                System.out.println(produceAnswer(expression));
+                try {
+                    System.out.println(produceAnswer(expression));
+                } catch (ArithmeticException e) {       // catch any attempt to divide by 0
+                    System.out.println("ERROR: zero division error.");
+                } catch (NumberFormatException e) {     // catch any illegal characters, symbols that are not _, /, or number
+                    System.out.println("ERROR: illegal characters.");
+                }
             else
                 event = false;
         }
@@ -40,33 +40,23 @@ public class FracCalc {
      *      Example: return ==> "1_1/4"
      */
     public static String produceAnswer(String expression){
-        // TODO: Implement this function to produce the solution to the input
-        // Checkpoint 1: Return the second operand.  Example "4/5 * 1_2/4" returns "1_2/4".
-
-        String[] values = expression.split(" ");
-
-        //System.out.println(values[2]);
-
-        // Checkpoint 2: Return the second operand as a string representing each part.
-        //               Example "4/5 * 1_2/4" returns "whole:1 numerator:2 denominator:4".
-
-        //System.out.println(toStr(parseExpression(values[2]));
-        
-        // Checkpoint 3: Evaluate the formula and return the result as a fraction.
-        //               Example "4/5 * 1_2/4" returns "6/5".
-
-        //for (int i = 0; i < values.length; i = i + 2) {
-        //    System.out.println(toStr(parseExpression(values[i])));
-        //}
-        
-        //System.out.println(toStr(mixingFraction(reduce(addition(parseExpression(values[0]), parseExpression(values[2]))))));
-        //System.out.println(toStr(mixingFraction(reduce(subtraction(parseExpression(values[0]), parseExpression(values[2]))))));
-        //System.out.println(toStr(mixingFraction(reduce(multiplication(parseExpression(values[0]), parseExpression(values[2]))))));
-        //System.out.println(toStr(mixingFraction(reduce(division(parseExpression(values[0]), parseExpression(values[2]))))));
-
         //               Note: Answer does not need to be mixingFractiond, but it must be correct.
         // Final project: All answers must be mixingFractiond.
         //               Example "4/5 * 1_2/4" returns "1_1/5".
+        String[] values = expression.split(" ");
+
+        // if the input is not complete, (1 +)
+        if (values.length < 3) {
+            return "ERROR: missing agrument";
+        }
+
+        String operators = "+-*/";
+        for (int i = 1; i < values.length; i = i + 2) {
+            // if the operators are more than 1 character long or not "+-*/" 
+            if (values[i].length() > 1 || !operators.contains(values[i])) {
+                return "ERROR: invalid format";
+            }
+        }
 
         int[] result;
 
@@ -95,8 +85,6 @@ public class FracCalc {
 
         return toStr(mixingFraction(result));
     }//end produceAnswer method
-
-    // TODO: Fill in the space below with helper methods
 
     // parse expression
     public static int[] parseExpression(String value) {
@@ -252,6 +240,10 @@ public class FracCalc {
 
     // turn the int array into string
     public static String toStr(int[] values) {
+        // if whole number and numerator are both negative only show one negative sign
+        if (values[0] < 0 && values[1] < 0) 
+            values[1] = values[1] * -1;
+
         // if the fraction is 0
         if (values[1] == 0) {
             // return only the whole number
@@ -295,11 +287,14 @@ public class FracCalc {
             b = temp;
         }
 
+        // while the remainder is not 0
         while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
+            int temp = b;   // store b the smaller number 
+            b = a % b;      // b is the new remainder
+            a = temp;       // set a equal to temp b
         }
+        
+        // return the last non 0 remainder
         return a;
     }//end greatestCommonDivisor method
 
