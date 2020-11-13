@@ -23,7 +23,7 @@ public class FracCalc {
                     System.out.println(produceAnswer(expression));
                 } catch (ArithmeticException e) {       // catch any attempt to divide by 0
                     System.out.println("ERROR: zero division error.");
-                } catch (NumberFormatException e) {     // catch any illegal characters, symbols that are not _, /, or number
+                } catch (NumberFormatException e) {     // catch any illegal characters, symbols that are not _, /, or numbers
                     System.out.println("ERROR: illegal characters.");
                 }
             else
@@ -45,6 +45,7 @@ public class FracCalc {
         //               Example "4/5 * 1_2/4" returns "1_1/5".
         String[] values = expression.split(" ");
 
+        //ERROR CHECKING
         // if the input is not complete, (1 +)
         if (values.length < 3) {
             return "ERROR: missing agrument";
@@ -58,20 +59,11 @@ public class FracCalc {
             }
         }
 
-        int[] result;
+        // store the first number
+        int[] result = parseExpression(values[0]);
 
-        // runs at least once, if there are only 2 numbers
-        if (values[1].equals("+"))
-            result = reduce(addition(parseExpression(values[0]), parseExpression(values[2])));
-        else if (values[1].equals("-")) 
-            result = reduce(subtraction(parseExpression(values[0]), parseExpression(values[2])));
-        else if (values[1].equals("*")) 
-            result = reduce(multiplication(parseExpression(values[0]), parseExpression(values[2])));
-        else 
-            result = reduce(division(parseExpression(values[0]), parseExpression(values[2])));
-        
-        // if there are more that 2 numbers, start at the third number; third number have index of 4
-        for (int i = 4; i < values.length; i = i + 2) {
+        // start from the second number; second number have index of 2
+        for (int i = 2; i < values.length; i = i + 2) {
             // check for the operator before the number
             if (values[i - 1].equals("+"))
                 result = reduce(addition(result, parseExpression(values[i])));
