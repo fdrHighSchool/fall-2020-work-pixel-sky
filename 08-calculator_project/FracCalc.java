@@ -51,10 +51,9 @@ public class FracCalc {
             return "ERROR: missing agrument";
         }
 
-        String operators = "+-*/";
         for (int i = 1; i < values.length; i = i + 2) {
             // if the operators are more than 1 character long or not "+-*/" 
-            if (values[i].length() > 1 || !operators.contains(values[i])) {
+            if (values[i].length() > 1 || !"+-*/".contains(values[i])) {
                 return "ERROR: invalid format";
             }
         }
@@ -75,6 +74,7 @@ public class FracCalc {
                 result = reduce(division(result, parseExpression(values[i])));
         }
 
+        // return the final answer in string
         return toStr(mixingFraction(result));
     }//end produceAnswer method
 
@@ -91,18 +91,18 @@ public class FracCalc {
 
         // if there are underscore
         if (underscoreIndex != -1)
-            // whole number equal to from 0 to underscore
+            // whole number equal to the value from 0 to underscore
             whole = Integer.parseInt(value.substring(0, underscoreIndex));
-        // elseif there are no underscore
+        // elseif there are no fraction
         else if (divideIndex == -1)
             // whole number equal to value[i]
             whole = Integer.parseInt(value);
 
-        // don't parse fraction if there are no fraction
+        // only parse fraction if there are fraction
         if (divideIndex != -1) {
-            // from underscore +1 to division symbol
+            // numerator equal to the value from underscore +1 to division symbol
             numerator = Integer.parseInt(value.substring(underscoreIndex + 1, divideIndex));
-            // from the division symbol +1 to the end
+            // denominator equal to the value from the division symbol +1 to the end
             denominator = Integer.parseInt(value.substring(divideIndex + 1));
         }
     
@@ -272,7 +272,7 @@ public class FracCalc {
         a = Math.abs(a);
         b = Math.abs(b);
 
-        // change position if b > a
+        // swap value if b > a
         if (b > a) {
             int temp = a;
             a = b;
