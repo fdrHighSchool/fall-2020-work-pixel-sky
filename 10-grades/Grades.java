@@ -33,40 +33,77 @@ public class Grades{
         // get the median of the grades
         System.out.println(median(arr));
         // get the mode of the grades
-        System.out.println(mode(arr));
+        System.out.println(mode(arr).toString());
 
         scanner.close();
     }//end main method
 
     // The mean is found by adding all numbers in the data set and then dividing by the number of values in the set.
-    public static double mean(int[] arr){
+    public static double mean(int[] arr) {
         double sum = 0;
-        for(int i = 0; i < arr.length; i++){
+        for(int i = 0; i < arr.length; i++) {
             sum += arr[i];
         }
         return sum / arr.length;
     }
 
     // The median is the middle value when a data set is ordered from least to greatest.
-    public static int median(int[] arr) {
+    public static double median(int[] arr) {
         arr = sort(arr);
+        // if there are even number of elements in the array
         if (arr.length % 2 == 0) {
-            return (arr[arr.length / 2] + arr[arr.length / 2 + 1]) / 2;
+            // return the average of the middle 2 number
+            return (arr[arr.length / 2 - 1] + arr[arr.length / 2]) / 2.0;
         }
+        // if not
         else {
-            return arr[arr.length / 2 + 1];
+            // return the middle number
+            return arr[arr.length / 2];
         }
     }
 
     // The mode is the number that occurs most often in a data set.
-    public static int mode(int[] arr) {
-        return 0;
+    public static ArrayList<Integer> mode(int[] arr) {
+        arr = sort(arr);
+        ArrayList<Integer> mostOften = new ArrayList<Integer>();
+        int currentNum = arr[0];    // the current number being compared
+        int highest = 0;            // keep track of how many time the most often number occure
+        int count = 0;              // keep track of how many time the current number occure
+
+        // time complexity O(n)
+        for (int i: arr) {
+            // if it encounters a new number 
+            if (i != currentNum) {
+                // if the count is more than highest
+                if (count > highest) {
+                    mostOften.clear();      // clear the array list
+                    highest = count;        // new highest
+                }
+                // if count is not less than highest 
+                if (!(count < highest)) {
+                    mostOften.add(currentNum);  // add the currrent number
+                    currentNum = i;             // new current number  
+                    count = 1;                  // reset count
+                } 
+            }
+            // if it is the same numebr 
+            else {
+                // increase the count
+                count++;
+            }
+        }
+
+        if (count > highest) {mostOften.clear();}
+        if (!(count < highest)) {mostOften.add(currentNum);}
+
+        // return the arrayList of the modes in the array
+        return mostOften;
     }
 
     // really basic sorting algorithm
     public static int[] sort(int[] array) {
         while (true) {
-            boolean sorted = true;
+            boolean sorted = true;  // at the start of each sort, sorted = true
             for (int i = 0; i < array.length - 1; i++) {
                 // if not sorted
                 if (array[i] > array[i + 1]) {
@@ -75,11 +112,12 @@ public class Grades{
                     array[i] = array[i + 1];
                     array[i + 1] = temp;
                     
+                    // if there is a pair of number not in order then sorted = false
                     sorted = false;
                 }
             }
-            if (sorted)
-                return array;
+            if (sorted)         // if there are no number that is not sorted 
+                return array;   // return the sorted array
         }    
     }
 }
