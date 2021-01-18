@@ -69,8 +69,14 @@ public class Student {
   
   
     public double calculateAverage() {
-  
-        return 0.0;
+        double sum = 0;
+        int index = 0;
+        
+        while (index < this.grades.length && this.grades[index] != 0) {
+            sum += this.grades[index++];
+        }
+
+        return sum / index;
     }//end calculateAverage() method
   
 
